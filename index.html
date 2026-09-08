@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Per te ❤</title>
+<meta name="description" content="Un posto solo nostro, un cruciverba al giorno.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#180d1e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --velluto:#180d1e; --avorio:#f5ead9;
+    --rosa:#ef8fa3; --rosa-chiaro:#f6b7c3; --oro:#e5b96f; --malva:#b39ac0;
+    --ease:cubic-bezier(.22,1,.36,1);
+    --card-bg:linear-gradient(180deg, rgba(42,24,48,.88), rgba(42,24,48,.55));
+    --card-bd:1px solid rgba(246,236,223,.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent}
+  body{
+    background:
+      radial-gradient(120vmax 80vmax at 85% -10%, rgba(70,32,66,.55), transparent 60%),
+      radial-gradient(100vmax 70vmax at -10% 110%, rgba(52,22,46,.6), transparent 55%),
+      var(--velluto);
+    color:var(--avorio); font-family:'Karla',system-ui,sans-serif;
+    min-height:100svh; overflow-x:hidden;
+  }
+  ::selection{background:rgba(239,143,163,.35)}
+  button,input,textarea,select{font-family:inherit; color:inherit}
+  :focus-visible{outline:2px solid var(--oro); outline-offset:3px; border-radius:8px}
+
+  .orb{position:fixed; border-radius:50%; filter:blur(90px); pointer-events:none; z-index:0}
+  .orb.a{width:55vmax;height:55vmax; top:-22vmax; left:-18vmax; opacity:.32;
+    background:radial-gradient(circle at 35% 35%, rgba(239,143,163,.55), transparent 62%);
+    animation:driftA 26s ease-in-out infinite alternate}
+  .orb.b{width:48vmax;height:48vmax; bottom:-20vmax; right:-16vmax; opacity:.26;
+    background:radial-gradient(circle at 60% 60%, rgba(229,185,111,.45), transparent 62%);
+    animation:driftB 32s ease-in-out infinite alternate}
+  @keyframes driftA{to{transform:translate(9vmax,7vmax) scale(1.12)}}
+  @keyframes driftB{to{transform:translate(-8vmax,-6vmax) scale(1.08)}}
+  .grain{position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E")}
+  canvas#bg{position:fixed; inset:0; z-index:2; pointer-events:none}
+  canvas#fx{position:fixed; inset:0; z-index:80; pointer-events:none}
+
+  .page{display:none; position:relative; z-index:3; min-height:100svh}
+  .page.active{display:flex; flex-direction:column}
+  .page.center{justify-content:center; align-items:center}
+  .page.leaving{animation:pageOut .3s var(--ease) forwards}
+  @keyframes pageOut{to{opacity:0; transform:scale(.985) translateY(-6px); filter:blur(6px)}}
+  .wrap{width:min(680px,100%); margin-inline:auto; padding:52px 22px 90px}
+  .wrap.wide{width:min(900px,100%)}
+  .page.active .stag{animation:rise .6s var(--ease) both}
+  @keyframes rise{from{opacity:0; transform:translateY(16px); filter:blur(5px)} to{opacity:1; transform:none; filter:none}}
+  @keyframes shake{10%,90%{transform:translateX(-2px)} 20%,80%{transform:translateX(4px)}
+    30%,50%,70%{transform:translateX(-7px)} 40%,60%{transform:translateX(7px)}}
+
+  .eb{font-weight:700; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--rosa)}
+  h1{font-family:'Fraunces',serif; font-style:italic; font-weight:600;
+     font-size:clamp(34px,7.5vw,54px); line-height:1.06; margin:14px 0 10px}
+  h2{font-family:'Fraunces',serif; font-style:italic; font-weight:600;
+     font-size:clamp(26px,5.5vw,36px); line-height:1.1; margin:12px 0 8px}
+  h3{font-size:16.5px; font-weight:700}
+  .sub{color:var(--malva); font-size:15.5px; line-height:1.55; max-width:56ch}
+
+  .btn{border:0; cursor:pointer; border-radius:999px; padding:15px 30px; font-weight:700; font-size:15.5px;
+    background:linear-gradient(135deg,var(--rosa-chiaro),var(--rosa) 55%,#d76a86);
+    color:#33101c; box-shadow:0 8px 26px rgba(239,143,163,.28);
+    transition:transform .35s var(--ease), box-shadow .35s var(--ease), opacity .3s}
+  .btn:hover{transform:translateY(-2px); box-shadow:0 12px 32px rgba(239,143,163,.4)}
+  .btn:active{transform:translateY(0) scale(.98)}
+  .btn.ghost{background:transparent; color:var(--avorio); box-shadow:none; border:1px solid rgba(246,236,223,.22)}
+  .btn.ghost:hover{border-color:rgba(239,143,163,.55); box-shadow:0 8px 24px rgba(239,143,163,.12)}
+  .btn.sm{padding:10px 18px; font-size:13.5px}
+  .btn.danger{color:#f0a2a2; border-color:rgba(240,162,162,.3)}
+  .btn[disabled]{opacity:.4; pointer-events:none}
+  .back{display:inline-flex; align-items:center; gap:8px; background:none; border:0; cursor:pointer;
+    color:var(--malva); font-size:14px; font-weight:500; margin-bottom:26px;
+    transition:color .3s, transform .3s var(--ease)}
+  .back:hover{color:var(--rosa); transform:translateX(-3px)}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+  /* cancello */
+  #gate .wrap{display:flex; flex-direction:column; align-items:center; text-align:center; padding-block:0}
+  .seal{width:min(460px,100%); background:var(--card-bg); border:var(--card-bd); border-radius:28px;
+    padding:44px 30px 40px; backdrop-filter:blur(8px); box-shadow:0 30px 80px rgba(0,0,0,.35)}
+  .seal.err{animation:shake .45s}
+  .heartmark{font-size:38px; display:inline-block; animation:beat 2.6s ease-in-out infinite;
+    filter:drop-shadow(0 6px 18px rgba(239,143,163,.45))}
+  @keyframes beat{0%,100%{transform:scale(1)} 12%{transform:scale(1.14)} 24%{transform:scale(1)} 36%{transform:scale(1.1)} 48%{transform:scale(1)}}
+  .dlabel{margin:26px 0 14px; color:var(--malva); font-size:14.5px}
+  .dates{display:flex; align-items:center; justify-content:center; gap:10px}
+  .dates .dot{color:var(--malva); font-size:22px; opacity:.6}
+  .din{width:76px; height:64px; text-align:center; border-radius:16px;
+    background:rgba(246,236,223,.06); border:1px solid rgba(246,236,223,.16); color:var(--avorio);
+    font-family:'Fraunces',serif; font-size:26px; font-weight:600; caret-color:var(--rosa);
+    transition:border-color .3s, background .3s, box-shadow .3s}
+  .din.y{width:104px}
+  .din:focus{outline:none; border-color:var(--rosa); background:rgba(239,143,163,.10); box-shadow:0 0 0 4px rgba(239,143,163,.15)}
+  .din::placeholder{color:rgba(179,154,192,.45); font-size:18px; font-family:'Karla'}
+  #gateMsg{min-height:22px; margin:16px 0 6px; color:var(--rosa-chiaro); font-size:14px; opacity:0; transition:opacity .4s}
+  #gateMsg.show{opacity:1}
+
+  /* home */
+  .counter{display:flex; gap:12px; margin:24px 0 8px; flex-wrap:wrap}
+  .tb{flex:1; min-width:74px; background:var(--card-bg); border:var(--card-bd); border-radius:18px;
+    padding:15px 8px 12px; text-align:center}
+  .tb b{display:block; font-family:'Fraunces',serif; font-weight:600; font-size:clamp(24px,5.6vw,32px);
+    color:var(--oro); font-variant-numeric:tabular-nums; line-height:1}
+  .tb span{display:block; margin-top:7px; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--malva)}
+  .since{color:var(--malva); font-size:14px; margin-top:4px}
+
+  .today{position:relative; overflow:hidden; width:100%; text-align:left; cursor:pointer; color:var(--avorio);
+    background:linear-gradient(150deg, rgba(239,143,163,.24), rgba(42,24,48,.72) 62%);
+    border:1px solid rgba(239,143,163,.36); border-radius:26px; padding:26px 24px; margin-top:30px;
+    box-shadow:0 20px 60px rgba(239,143,163,.14);
+    transition:transform .45s var(--ease), box-shadow .45s var(--ease)}
+  .today:hover{transform:translateY(-3px); box-shadow:0 26px 70px rgba(239,143,163,.24)}
+  .today:active{transform:scale(.99)}
+  .today::after{content:''; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.14) 45%, transparent 60%);
+    transform:translateX(-120%); animation:sheen 5.5s var(--ease) infinite}
+  @keyframes sheen{0%,72%{transform:translateX(-120%)} 92%,100%{transform:translateX(120%)}}
+  .today .ic{font-size:34px; display:block; margin-bottom:12px}
+  .today h2{margin:0 0 6px; font-size:clamp(24px,5.4vw,32px)}
+  .today p{color:rgba(246,236,223,.78); font-size:14.5px; line-height:1.5; max-width:40ch}
+  .today .go{display:inline-block; margin-top:16px; font-weight:700; font-size:14px; color:var(--rosa-chiaro)}
+  .today.empty{background:var(--card-bg); border:var(--card-bd); cursor:default; box-shadow:none}
+  .today.empty::after{display:none}
+  .today.empty:hover{transform:none}
+
+  .seclabel{display:flex; align-items:baseline; justify-content:space-between; margin:38px 0 14px; gap:12px}
+  .seclabel span{font-size:12.5px; color:var(--malva)}
+  .cal{display:grid; grid-template-columns:repeat(auto-fill, minmax(84px,1fr)); gap:10px}
+  .day{position:relative; aspect-ratio:1; border-radius:18px; cursor:pointer; color:var(--avorio);
+    background:var(--card-bg); border:var(--card-bd); display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:4px; padding:8px; overflow:hidden;
+    transition:transform .4s var(--ease), border-color .4s, box-shadow .4s, opacity .4s}
+  .day:hover{transform:translateY(-3px) scale(1.02); border-color:rgba(239,143,163,.42);
+    box-shadow:0 14px 34px rgba(239,143,163,.14)}
+  .day .n{font-family:'Fraunces',serif; font-size:19px; color:var(--malva)}
+  .day .e{font-size:21px; line-height:1}
+  .day .d{font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:rgba(179,154,192,.75);
+    text-align:center; line-height:1.25; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .day.locked{cursor:not-allowed; opacity:.42}
+  .day.locked:hover{transform:none; border-color:rgba(246,236,223,.10); box-shadow:none}
+  .day.locked .e{filter:grayscale(1)}
+  .day.today{border-color:var(--rosa); background:linear-gradient(160deg, rgba(239,143,163,.22), rgba(42,24,48,.7));
+    animation:glow 3s ease-in-out infinite}
+  @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(239,143,163,.28)} 50%{box-shadow:0 0 0 9px rgba(239,143,163,0)}}
+  .day.done{border-color:rgba(229,185,111,.45)}
+  .day.done .n{color:var(--oro)}
+  .day.done::after{content:'✓'; position:absolute; top:7px; right:9px; font-size:11px; color:var(--oro)}
+
+  .cards{display:flex; flex-direction:column; gap:14px; margin-top:16px}
+  .card{display:flex; align-items:center; gap:16px; text-align:left; width:100%;
+    background:var(--card-bg); border:var(--card-bd); border-radius:20px; padding:18px 20px;
+    cursor:pointer; color:var(--avorio); transition:transform .4s var(--ease), border-color .4s, box-shadow .4s}
+  .card:hover{transform:translateY(-3px); border-color:rgba(239,143,163,.4); box-shadow:0 16px 40px rgba(239,143,163,.12)}
+  .card.err{animation:shake .45s}
+  .card .ic{font-size:24px; min-width:52px; height:52px; display:grid; place-items:center;
+    background:rgba(239,143,163,.12); border-radius:16px}
+  .card p{font-size:13.5px; color:var(--malva); margin-top:3px; line-height:1.45}
+  .card p code{background:rgba(0,0,0,.3); padding:1px 5px; border-radius:4px; font-size:12px}
+  .card.mine{border-style:dashed; border-color:rgba(229,185,111,.4); background:rgba(229,185,111,.06)}
+  .card.mine .ic{background:rgba(229,185,111,.14)}
+  .card.mine:hover{border-color:rgba(229,185,111,.75); box-shadow:0 16px 40px rgba(229,185,111,.12)}
+  .foot{margin-top:44px; text-align:center; color:rgba(179,154,192,.55); font-size:12.5px; user-select:none}
+
+  /* cruciverba */
+  .intro{color:rgba(246,236,223,.8); font-size:15.5px; line-height:1.6; max-width:52ch; margin-top:10px}
+  .cgrid{display:grid; gap:5px; margin:24px auto 10px; grid-template-columns:repeat(var(--cols),1fr);
+    --cell:min(calc((100vw - 46px)/var(--cols)), calc(470px/var(--cols)));
+    width:calc(var(--cell)*var(--cols) + 5px*(var(--cols) - 1))}
+  .void{aspect-ratio:1}
+  .cell{position:relative; aspect-ratio:1}
+  .cell input{width:100%; height:100%; text-align:center; text-transform:uppercase; padding:0;
+    font-weight:700; font-size:calc(var(--cell)*.5); color:var(--avorio);
+    background:rgba(246,236,223,.05); border:1px solid rgba(246,236,223,.16); border-radius:8px;
+    caret-color:var(--rosa); transition:border-color .25s, background .25s, box-shadow .25s}
+  .cell input:focus{outline:none}
+  .cell .n{position:absolute; top:1px; left:4px; font-size:calc(var(--cell)*.22); color:var(--malva); pointer-events:none}
+  .cell.word input{border-color:rgba(239,143,163,.5); background:rgba(239,143,163,.09)}
+  .cell.cur input{border-color:var(--rosa); background:rgba(239,143,163,.2); box-shadow:0 0 0 3px rgba(239,143,163,.16)}
+  .cell.ok input{border-color:rgba(229,185,111,.6); background:rgba(229,185,111,.10); color:var(--oro)}
+  .cell.pulse input{animation:pulseOk .8s var(--ease)}
+  @keyframes pulseOk{from{box-shadow:0 0 0 0 rgba(229,185,111,.5)} to{box-shadow:0 0 0 16px rgba(229,185,111,0)}}
+  .cell.err input{animation:shake .4s; border-color:rgba(239,110,110,.7)}
+  .gbar{display:flex; align-items:center; gap:12px; margin:14px 0 22px; flex-wrap:wrap}
+  .gnote{color:var(--malva); font-size:13.5px}
+  .gnote b{color:var(--rosa-chiaro)}
+  .clues{display:grid; grid-template-columns:1fr 1fr; gap:8px 22px}
+  @media(max-width:560px){.clues{grid-template-columns:1fr}}
+  .clues h4{font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--oro); margin:14px 0 6px}
+  .clue{padding:9px 13px; border-radius:12px; color:var(--malva); font-size:14px; line-height:1.4;
+    cursor:pointer; transition:background .3s, color .3s}
+  .clue b{color:var(--avorio); font-weight:700; margin-right:6px}
+  .clue:hover{background:rgba(239,143,163,.08)}
+  .clue.active{background:rgba(239,143,163,.13); color:var(--avorio)}
+  .clue.done{color:rgba(229,185,111,.75); text-decoration:line-through rgba(229,185,111,.5)}
+  .clue.done b{color:rgba(229,185,111,.85)}
+
+  /* carta / lettera */
+  .paper{background:var(--card-bg); border:var(--card-bd); border-radius:26px;
+    padding:clamp(26px,6vw,44px); backdrop-filter:blur(8px)}
+  .paper p{font-size:16.5px; line-height:1.85; color:#efe2d0; margin-bottom:1.1em}
+  .paper p:last-child{margin-bottom:0}
+  .paper .firma{font-family:'Fraunces',serif; font-style:italic; font-size:22px; color:var(--rosa-chiaro); margin-top:26px}
+
+  /* editor */
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:20px 0 4px}
+  .chip{border:1px solid rgba(246,236,223,.18); background:transparent; color:var(--malva);
+    border-radius:999px; padding:8px 15px; font-size:13.5px; font-weight:500; cursor:pointer;
+    transition:border-color .3s, color .3s, background .3s; max-width:100%; overflow:hidden;
+    text-overflow:ellipsis; white-space:nowrap}
+  .chip:hover{color:var(--avorio); border-color:rgba(239,143,163,.45)}
+  .chip.on{background:rgba(239,143,163,.16); border-color:var(--rosa); color:var(--avorio); font-weight:700}
+  .chip.done{border-color:rgba(229,185,111,.35)}
+  .fl{display:block; font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--malva); margin:22px 0 8px}
+  .fl span{text-transform:none; letter-spacing:0; opacity:.8}
+  .fin{width:100%; background:rgba(246,236,223,.05); border:1px solid rgba(246,236,223,.16);
+    border-radius:12px; font-size:15px; padding:12px 14px; transition:border-color .25s, background .25s}
+  .fin:focus{outline:none; border-color:var(--rosa); background:rgba(239,143,163,.08)}
+  .fin::placeholder{color:rgba(179,154,192,.5)}
+  textarea.fin{min-height:74px; resize:vertical; line-height:1.55}
+  .half{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media(max-width:600px){.half{grid-template-columns:1fr}}
+  .erow{display:flex; gap:8px; margin-bottom:8px; align-items:center}
+  .erow .fin.k{flex:0 0 34%; text-transform:uppercase; font-weight:700; letter-spacing:.04em}
+  .erow .fin.v{flex:1}
+  .erow .del{flex:0 0 38px; height:38px; border-radius:10px; border:1px solid rgba(246,236,223,.16);
+    background:transparent; color:var(--malva); font-size:16px; cursor:pointer; transition:.25s}
+  .erow .del:hover{color:#f0a2a2; border-color:rgba(240,162,162,.4)}
+  .erow.bad .fin.k{border-color:rgba(240,162,162,.6)}
+  .split{display:grid; grid-template-columns:1fr; gap:18px; margin-top:24px}
+  @media(min-width:780px){.split{grid-template-columns:1fr 290px}}
+  .pvbox{background:var(--card-bg); border:var(--card-bd); border-radius:20px; padding:18px; overflow:auto}
+  .pvgrid{display:grid; gap:3px; margin-inline:auto; grid-template-columns:repeat(var(--cols),1fr);
+    --cell:min(calc((100vw - 90px)/var(--cols)), calc(280px/var(--cols)));
+    width:calc(var(--cell)*var(--cols) + 3px*(var(--cols) - 1))}
+  .pvc{aspect-ratio:1; display:grid; place-items:center; border-radius:5px;
+    background:rgba(239,143,163,.12); border:1px solid rgba(239,143,163,.28);
+    font-size:calc(var(--cell)*.5); font-weight:700}
+  .pvc.empty{background:none; border:0}
+  .warn{font-size:13.5px; line-height:1.5; color:var(--malva); margin-bottom:8px}
+  .warn b{color:var(--oro)}
+  .warn.bad b{color:#f0a2a2}
+  .io{width:100%; margin-top:14px; min-height:150px; display:none; resize:vertical;
+    background:rgba(0,0,0,.28); border:1px solid rgba(246,236,223,.16); border-radius:14px;
+    font-family:ui-monospace,Menlo,monospace; font-size:12.5px; line-height:1.6; padding:14px}
+  .io.show{display:block}
+  .io:focus{outline:none; border-color:var(--rosa)}
+  .tog{display:flex; align-items:center; gap:10px; cursor:pointer; color:var(--malva); font-size:14px}
+  .tog input{width:42px; height:24px; appearance:none; background:rgba(246,236,223,.12);
+    border-radius:999px; position:relative; cursor:pointer; transition:background .3s; flex:none}
+  .tog input::after{content:''; position:absolute; top:3px; left:3px; width:18px; height:18px;
+    border-radius:50%; background:var(--malva); transition:transform .3s var(--ease), background .3s}
+  .tog input:checked{background:rgba(239,143,163,.35)}
+  .tog input:checked::after{transform:translateX(18px); background:var(--rosa)}
+  .panel{background:rgba(246,236,223,.035); border:1px dashed rgba(246,236,223,.18);
+    border-radius:18px; padding:18px; margin-top:10px}
+  .panel h4{font-size:15px; margin-bottom:6px}
+  .panel .hint{font-size:13.5px; color:var(--malva); line-height:1.55; margin-bottom:12px}
+  .panel .hint code{background:rgba(0,0,0,.28); padding:2px 6px; border-radius:5px; font-size:12.5px}
+
+  .overlay{position:fixed; inset:0; z-index:70; display:grid; place-items:center;
+    background:rgba(20,10,24,.62); backdrop-filter:blur(14px); opacity:0; pointer-events:none;
+    transition:opacity .5s var(--ease); padding:20px}
+  .overlay.show{opacity:1; pointer-events:auto}
+  .overlay .box{text-align:center; max-width:440px; transform:translateY(18px) scale(.96);
+    transition:transform .6s var(--ease)}
+  .overlay.show .box{transform:none}
+  .overlay h2{font-size:clamp(30px,7.4vw,42px)}
+  .overlay .sub{margin:10px auto 18px}
+  .obtns{display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
+
+  #toast{position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(20px); z-index:90;
+    background:#33203b; border:1px solid rgba(246,236,223,.14); font-size:14px; padding:12px 20px;
+    border-radius:999px; box-shadow:0 14px 40px rgba(0,0,0,.4); opacity:0; pointer-events:none;
+    transition:opacity .4s var(--ease), transform .4s var(--ease); max-width:88vw; text-align:center}
+  #toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .reveal{position:fixed; z-index:60; width:80px; height:80px; margin:-40px 0 0 -40px; border-radius:50%;
+    pointer-events:none; transform:scale(0);
+    background:radial-gradient(circle, #f8c0cc, var(--rosa) 42%, #b8536e 78%, #8f3d55)}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="orb a"></div>
+<div class="orb b"></div>
+<div class="grain"></div>
+<canvas id="bg"></canvas>
+
+<section id="gate" class="page center active">
+  <div class="wrap">
+    <div class="seal" id="sealBox">
+      <span class="heartmark stag">💌</span>
+      <p class="eb stag" style="margin-top:16px">un regalo, per una persona sola</p>
+      <h1 class="stag">Se sei davvero tu,<br>la sai.</h1>
+      <p class="dlabel stag">Quando è cominciata la nostra storia?</p>
+      <div class="dates stag">
+        <input class="din" id="dD" inputmode="numeric" maxlength="2" placeholder="GG" autocomplete="off" aria-label="giorno">
+        <span class="dot">·</span>
+        <input class="din" id="dM" inputmode="numeric" maxlength="2" placeholder="MM" autocomplete="off" aria-label="mese">
+        <span class="dot">·</span>
+        <input class="din y" id="dY" inputmode="numeric" maxlength="4" placeholder="AAAA" autocomplete="off" aria-label="anno">
+      </div>
+      <p id="gateMsg" aria-live="polite"></p>
+      <button class="btn stag" id="btnOpen" style="margin-top:8px">Apri&nbsp;❤</button>
+    </div>
+  </div>
+</section>
+
+<section id="home" class="page">
+  <div class="wrap">
+    <p class="eb stag">casa nostra</p>
+    <h1 class="stag">Ciao, <span id="herName"></span></h1>
+    <p class="since stag">Insieme dal <b id="sinceDate"></b> — e il conto non si ferma:</p>
+    <div class="counter stag">
+      <div class="tb"><b id="cd">0</b><span>giorni</span></div>
+      <div class="tb"><b id="ch">00</b><span>ore</span></div>
+      <div class="tb"><b id="cm">00</b><span>minuti</span></div>
+      <div class="tb"><b id="cs">00</b><span>secondi</span></div>
+    </div>
+
+    <button class="today stag" id="todayCard"></button>
+
+    <div class="seclabel stag">
+      <p class="eb">tutti i cruciverba</p>
+      <span id="calStat"></span>
+    </div>
+    <div class="cal stag" id="cal"></div>
+
+    <div class="cards stag" style="margin-top:26px">
+      <button class="card" id="cardLetter">
+        <span class="ic" id="letterIc">🔒</span>
+        <span><h3>La lettera</h3><p id="letterHint">Si apre quando risolvi il primo cruciverba.</p></span>
+      </button>
+      <button class="card mine" id="cardStudio" style="display:none">
+        <span class="ic">🛠️</span>
+        <span><h3>Editor — crea nuovi cruciverba</h3>
+          <p>Solo tu vedi questo bottone. Mettilo a <code>false</code> nel CONFIG prima di darle il sito.</p></span>
+      </button>
+    </div>
+
+    <p class="foot stag" id="footMark">fatto a mano, con amore — solo per te</p>
+  </div>
+</section>
+
+<section id="gioco" class="page">
+  <div class="wrap">
+    <button class="back stag" data-home>← casa nostra</button>
+    <p class="eb stag" id="gDate"></p>
+    <h2 class="stag" id="gTitle"></h2>
+    <p class="intro stag" id="gIntro"></p>
+    <div class="stag" id="gHost"></div>
+  </div>
+</section>
+
+<section id="lettera" class="page">
+  <div class="wrap">
+    <button class="back stag" data-home>← casa nostra</button>
+    <p class="eb stag">solo per i tuoi occhi</p>
+    <h2 class="stag" id="letterTitle"></h2>
+    <div class="paper stag" id="letterBody" style="margin-top:18px"></div>
+  </div>
+</section>
+
+<section id="studio" class="page">
+  <div class="wrap wide">
+    <button class="back stag" data-home>← casa nostra</button>
+    <p class="eb stag">retrobottega · non farglielo vedere 🤫</p>
+    <h2 class="stag">Editor cruciverba</h2>
+    <p class="sub stag">Scrivi le parole con le loro definizioni: la griglia si incastra da sola. Quando hai finito premi <b>Esporta</b> e incolla il codice nel file, così i cruciverba viaggiano con il sito.</p>
+
+    <div class="row stag" style="margin-top:18px">
+      <label class="tog"><input type="checkbox" id="prevMode"> Modalità anteprima: sblocca tutti i giorni</label>
+    </div>
+
+    <div class="chips stag" id="edChips"></div>
+
+    <div class="half stag">
+      <div>
+        <label class="fl" for="fDate">Giorno in cui si sblocca</label>
+        <input class="fin" type="date" id="fDate">
+      </div>
+      <div>
+        <label class="fl" for="fTitle">Titolo</label>
+        <input class="fin" id="fTitle" placeholder="Es. Le parole nostre" autocomplete="off">
+      </div>
+    </div>
+
+    <label class="fl stag" for="fIntro">Introduzione <span>(quello che legge prima di giocare)</span></label>
+    <textarea class="fin stag" id="fIntro" placeholder="Due righe per presentarlo…"></textarea>
+
+    <label class="fl stag">Parole e definizioni</label>
+    <div class="stag" id="wordRows"></div>
+    <div class="row stag" style="margin-top:8px">
+      <button class="btn ghost sm" id="addWord">+ aggiungi parola</button>
+      <button class="btn ghost sm" id="togglePaste">📋 Incolla una lista</button>
+      <button class="btn ghost sm" id="sortWords">Ordina per lunghezza</button>
+    </div>
+
+    <div class="panel stag" id="pastePanel" style="display:none">
+      <h4>Incolla la lista</h4>
+      <p class="hint">Una riga per parola, con la definizione dopo un separatore: <code>=</code>, <code>-</code>, <code>:</code>, <code>;</code>, <code>|</code>, virgola o tabulazione.<br>
+        Esempio: <code>TESORO = come ti chiamo quando voglio qualcosa</code></p>
+      <textarea class="fin" id="pasteBox" style="min-height:150px" placeholder="TESORO = come ti chiamo quando voglio qualcosa&#10;GELATO - non ci rinunciamo mai&#10;MARE: dove siamo stati la prima volta"></textarea>
+      <p class="warn" id="pasteInfo" style="margin-top:10px"></p>
+      <div class="row">
+        <button class="btn sm" id="pasteAdd">Aggiungi a queste</button>
+        <button class="btn ghost sm" id="pasteReplace">Sostituisci tutto</button>
+        <button class="btn ghost sm" id="pasteClose">Chiudi</button>
+      </div>
+    </div>
+
+    <label class="fl stag" for="fOutro">Messaggio finale <span>(quando l'ha risolto)</span></label>
+    <textarea class="fin stag" id="fOutro" placeholder="Le sapevi tutte. Ovvio: sono parole nostre ❤"></textarea>
+
+    <div class="split stag">
+      <div class="pvbox">
+        <p class="fl" style="margin:0 0 12px">Anteprima della griglia</p>
+        <div id="pvGrid" class="pvgrid"></div>
+      </div>
+      <div>
+        <p class="fl" style="margin:0 0 10px">Controllo qualità</p>
+        <div id="pvWarn"></div>
+      </div>
+    </div>
+
+    <div class="row stag" style="margin-top:26px">
+      <button class="btn" id="pSave">Salva</button>
+      <button class="btn ghost" id="pTry">Provalo</button>
+      <button class="btn ghost" id="pNew">+ nuovo giorno</button>
+      <button class="btn ghost" id="pDup">Duplica</button>
+      <button class="btn ghost" id="pExport">Esporta codice</button>
+      <button class="btn ghost" id="pImport">Importa</button>
+      <button class="btn ghost danger" id="pDel">Elimina</button>
+    </div>
+    <textarea class="io" id="ioBox" spellcheck="false"></textarea>
+    <div class="row" id="ioActions" style="display:none; margin-top:10px">
+      <button class="btn ghost sm" id="ioCopy">Copia negli appunti</button>
+      <button class="btn ghost sm" id="ioApply" style="display:none">Carica questo</button>
+      <button class="btn ghost sm" id="ioClose">Chiudi</button>
+    </div>
+  </div>
+</section>
+
+<div class="overlay" id="win">
+  <div class="box">
+    <span class="heartmark">🏆</span>
+    <h2>Risolto ❤</h2>
+    <p class="sub" id="vText"></p>
+    <p id="vExtra" style="color:var(--oro); font-size:15px; margin-bottom:20px"></p>
+    <div class="obtns">
+      <button class="btn" id="btnWinHome">Torna a casa</button>
+      <button class="btn ghost" id="btnWinLetter">Apri la lettera 💌</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+<canvas id="fx"></canvas>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   ★ CONFIG ★ — l'unica parte da modificare a mano.
+   I CRUCIVERBA conviene scriverli dall'editor: premi Ctrl+Shift+E
+   (oppure tieni premuto sulla scritta in fondo alla home),
+   creali lì e poi premi "Esporta codice".
+   ═══════════════════════════════════════════════════════════════ */
+const CONFIG = {
+
+  herName: "Sally",
+
+  anniversary: { day: 18, month: 11, year: 2024 },   // ⚠️ la data vera: è la password
+
+  // ⚙️ true = in home vedi il bottone "Editor" per creare cruciverba.
+  //    Mettilo a false SOLO quando dai il sito a lei, così sparisce.
+  editorVisibile: true,
+
+  signature: "Il tuo, per sempre",
+
+  letterTitle: "Per te",
+  letterParagraphs: [
+    "Bravissima tatina, sono fiero di te! Hai risolto il cruciverba. Ho fatto questa cosa per ricordarti quanto ti amo e quanto sono felice di averti nella mia vita.",
+  ],
+
+  days: [
+    { date:"2026-09-08", title:"Le parole nostre",
+      intro:"Sette parole, tutte prese dalla nostra storia. Se ti blocchi c'è l'aiutino… ma si paga.",
+      outro:"Le sapevi tutte. Ovvio: sono parole nostre ❤",
+      words:[
+        { word:"TESORO", clue:"Come ti chiamo quando voglio qualcosa 😏" },
+        { word:"GELATO", clue:"Non ci rinunciamo mai, nemmeno a gennaio" },
+        { word:"GRAZIE", clue:"Te lo dico per ogni giorno passato insieme" },
+        { word:"AMORE",  clue:"Quello che provo per te (questa era facile)" },
+        { word:"CUORE",  clue:"Te l'ho dato: tienilo stretto" },
+        { word:"BACIO",  clue:"Il modo migliore per dirsi buongiorno" },
+        { word:"SEMPRE", clue:"Per quanto tempo voglio restare con te" }
+      ]},
+
+    { date:"2026-09-09", title:"I posti dove siamo stati",
+      intro:"Otto parole, tutte con un indirizzo. Qualcuna te la ricorderai meglio di me.",
+      outro:"E ce ne mancano ancora tanti da aggiungere a questa lista.",
+      words:[
+        { word:"MARE",     clue:"Dove finiamo sempre, in qualunque stagione" },
+        { word:"DIVANO",   clue:"La nostra destinazione preferita del venerdì" },
+        { word:"CINEMA",   clue:"Ci addormentiamo quasi sempre. Quasi." },
+        { word:"MONTAGNA", clue:"Ti lamenti in salita e poi sei la prima ad arrivare" },
+        { word:"CASA",     clue:"Il posto migliore, quando ci sei tu" },
+        { word:"VIAGGIO",  clue:"Quello che dobbiamo assolutamente rifare" }
+      ]},
+
+    { date:"2026-09-10", title:"Come sei fatta",
+      intro:"Sei parole per descriverti. Sono state facili da scegliere.",
+      outro:"E ne avrei altre venti, se ci stessero nella griglia.",
+      words:[
+        { word:"RISATA",   clue:"La prima cosa che mi ha fregato di te" },
+        { word:"TESTARDA", clue:"Diciamo la verità: un pochino lo sei" },
+        { word:"DOLCE",    clue:"Come sei quando pensi che non ti guardi" },
+        { word:"OCCHI",    clue:"La parte di te che mi frega ancora oggi" },
+        { word:"CALMA",    clue:"Quella che mi passi tu quando vado in ansia" }
+      ]}
+  ]
+};
+/* ═══════════ fine CONFIG — da qui in giù è solo motore ═══════════ */
+
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const el = (tag, cls, txt)=>{
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(txt != null) n.textContent = txt;
+  return n;
+};
+
+/* ── memoria del browser ────────────────────────────────────── */
+const mem = {};
+const store = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return k in mem ? mem[k] : null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); return true; }catch(e){ mem[k]=v; return false; } }
+};
+const readJSON = (k, fb)=>{ try{ const v = JSON.parse(store.get(k)); return v ?? fb; }catch(e){ return fb; } };
+
+/* ── testo e date ───────────────────────────────────────────── */
+function normWord(s){
+  return (s||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z]/g,'');
+}
+const IT_DATE = new Intl.DateTimeFormat('it-IT',{weekday:'long', day:'numeric', month:'long'});
+const dkey = d=> d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const todayKey = ()=> dkey(new Date());
+const keyToDate = k=>{ const [y,m,d] = (k||'').split('-').map(Number); return new Date(y||1970,(m||1)-1,d||1); };
+const prettyDate = k=> IT_DATE.format(keyToDate(k));
+
+/* ── navigazione e toast ────────────────────────────────────── */
+function showPage(id, instant=false){
+  const cur = $('.page.active'), next = document.getElementById(id);
+  const swap = ()=>{
+    if(cur) cur.classList.remove('active','leaving');
+    next.classList.add('active');
+    next.querySelectorAll('.stag').forEach((n,i)=> n.style.animationDelay = (70 + i*50) + 'ms');
+    window.scrollTo({top:0, behavior:'instant'});
+  };
+  if(instant || !cur || cur === next){ swap(); return; }
+  cur.classList.add('leaving');
+  setTimeout(swap, 290);
+}
+let toastT;
+function toast(msg){
+  const t = $('#toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(()=> t.classList.remove('show'), 2600);
+}
+
+/* ── effetti ────────────────────────────────────────────────── */
+const bg = $('#bg'), fx = $('#fx'), bgx = bg.getContext('2d'), fxx = fx.getContext('2d');
+function fit(){ [bg,fx].forEach(c=>{ c.width = innerWidth; c.height = innerHeight; }); }
+addEventListener('resize', fit); fit();
+const floaters = [];
+if(!reduced){
+  setInterval(()=>{
+    if(floaters.length < 14) floaters.push({x:Math.random()*bg.width, y:bg.height+24, s:9+Math.random()*13,
+      v:.22+Math.random()*.4, ph:Math.random()*6.28, al:.05+Math.random()*.09, r:(Math.random()-.5)*.5});
+  }, 1500);
+  (function loopBg(t){
+    bgx.clearRect(0,0,bg.width,bg.height);
+    for(let i=floaters.length-1;i>=0;i--){
+      const p = floaters[i]; p.y -= p.v;
+      bgx.save(); bgx.translate(p.x + Math.sin(t/1600 + p.ph)*16, p.y); bgx.rotate(p.r);
+      bgx.globalAlpha = p.al; bgx.fillStyle = '#ef8fa3'; bgx.font = p.s+'px serif';
+      bgx.fillText('♥', 0, 0); bgx.restore();
+      if(p.y < -30) floaters.splice(i,1);
+    }
+    requestAnimationFrame(loopBg);
+  })(0);
+}
+const parts = []; let fxRunning = false;
+const PAL = ['#ef8fa3','#f6b7c3','#e5b96f','#f5ead9'];
+function fxLoop(){
+  fxx.clearRect(0,0,fx.width,fx.height);
+  for(let i=parts.length-1;i>=0;i--){
+    const p = parts[i];
+    p.x+=p.vx; p.y+=p.vy; p.vy+=p.g; p.rot+=p.vr; p.life-=p.decay;
+    if(p.life<=0){ parts.splice(i,1); continue; }
+    fxx.save(); fxx.translate(p.x,p.y); fxx.rotate(p.rot);
+    fxx.globalAlpha = Math.min(1,p.life); fxx.fillStyle = p.color;
+    if(p.type==='h'){ fxx.font = p.s+'px serif'; fxx.fillText('♥', -p.s/2, p.s/3); }
+    else fxx.fillRect(-p.s/2, -p.s/4, p.s, p.s/2);
+    fxx.restore();
+  }
+  if(parts.length) requestAnimationFrame(fxLoop); else fxRunning = false;
+}
+function kickFx(){ if(!fxRunning){ fxRunning = true; requestAnimationFrame(fxLoop); } }
+function burst(x,y,n=26,power=5){
+  if(reduced) return;
+  for(let i=0;i<n;i++){
+    const a=Math.random()*6.283, v=1+Math.random()*power;
+    parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-1.2,g:.09,s:8+Math.random()*10,rot:Math.random()*6,
+      vr:(Math.random()-.5)*.2,life:1,decay:.012+Math.random()*.012,type:'h',
+      color:PAL[Math.floor(Math.random()*PAL.length)]});
+  }
+  kickFx();
+}
+function burstAt(node, n, p){
+  if(!node) return;
+  const r = node.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, n, p);
+}
+function confetti(){
+  if(reduced) return;
+  [[fx.width*.2,fx.height*.3],[fx.width*.5,fx.height*.22],[fx.width*.8,fx.height*.3]].forEach(o=>{
+    for(let i=0;i<48;i++){
+      const a=Math.random()*6.283, v=2+Math.random()*6;
+      parts.push({x:o[0],y:o[1],vx:Math.cos(a)*v,vy:Math.sin(a)*v-2,g:.12,s:7+Math.random()*9,rot:Math.random()*6,
+        vr:(Math.random()-.5)*.3,life:1.4,decay:.008+Math.random()*.008,type:Math.random()<.5?'h':'r',
+        color:PAL[Math.floor(Math.random()*PAL.length)]});
+    }
+  });
+  kickFx();
+}
+
+/* ═══════════ GENERATORE DI GRIGLIA (deterministico) ═══════════ */
+function canPlace(grid, word, r, c, dir){
+  const dr = dir==='down'?1:0, dc = dir==='across'?1:0;
+  if(grid.has((r-dr)+','+(c-dc))) return 0;
+  if(grid.has((r+dr*word.length)+','+(c+dc*word.length))) return 0;
+  let cross = 0;
+  for(let i=0;i<word.length;i++){
+    const rr = r+dr*i, cc = c+dc*i, cur = grid.get(rr+','+cc);
+    if(cur){ if(cur !== word[i]) return 0; cross++; }
+    else if(dir==='across'){ if(grid.has((rr-1)+','+cc) || grid.has((rr+1)+','+cc)) return 0; }
+    else { if(grid.has(rr+','+(cc-1)) || grid.has(rr+','+(cc+1))) return 0; }
+  }
+  return cross;
+}
+function extent(list, extra){
+  const all = extra ? [...list, extra] : list;
+  let minR=1/0,minC=1/0,maxR=-1/0,maxC=-1/0;
+  for(const p of all){
+    const er = p.row + (p.dir==='down'  ? p.word.length-1 : 0);
+    const ec = p.col + (p.dir==='across'? p.word.length-1 : 0);
+    minR=Math.min(minR,p.row); minC=Math.min(minC,p.col);
+    maxR=Math.max(maxR,er);    maxC=Math.max(maxC,ec);
+  }
+  return {minR,minC,rows:maxR-minR+1, cols:maxC-minC+1};
+}
+function packCross(seq){
+  const grid = new Map(), placed = [];
+  let crossings = 0;
+  const put = (w,r,c,dir)=>{
+    for(let i=0;i<w.word.length;i++){
+      const rr = r + (dir==='down'?i:0), cc = c + (dir==='across'?i:0);
+      grid.set(rr+','+cc, w.word[i]);
+    }
+    placed.push({word:w.word, clue:w.clue, row:r, col:c, dir});
+  };
+  put(seq[0], 0, 0, 'across');
+  let pending = seq.slice(1);
+  for(let pass=0; pass<3 && pending.length; pass++){
+    const still = [];
+    for(const w of pending){
+      const cand = [];
+      for(const p of placed) for(let i=0;i<p.word.length;i++) for(let j=0;j<w.word.length;j++){
+        if(p.word[i] !== w.word[j]) continue;
+        const dir = p.dir==='across' ? 'down' : 'across';
+        const r = p.dir==='across' ? p.row - j : p.row + i;
+        const c = p.dir==='across' ? p.col + i : p.col - j;
+        const x = canPlace(grid, w.word, r, c, dir);
+        if(!x) continue;
+        const bb = extent(placed, {word:w.word, row:r, col:c, dir});
+        cand.push({r,c,dir,cross:x, area:bb.rows*bb.cols, skew:Math.abs(bb.rows-bb.cols), wide:bb.cols});
+      }
+      if(!cand.length){ still.push(w); continue; }
+      cand.sort((a,b)=> b.cross-a.cross || a.area-b.area || a.wide-b.wide || a.skew-b.skew
+                     || a.r-b.r || a.c-b.c || a.dir.localeCompare(b.dir));
+      crossings += cand[0].cross;
+      put(w, cand[0].r, cand[0].c, cand[0].dir);
+    }
+    if(still.length === pending.length){ pending = still; break; }
+    pending = still;
+  }
+  const bb = extent(placed);
+  placed.forEach(p=>{ p.row -= bb.minR; p.col -= bb.minC; });
+  return {placed, dropped:pending, rows:bb.rows, cols:bb.cols, crossings};
+}
+function buildLayout(entries){
+  const list = [], seen = new Set(), rejected = [];
+  (entries||[]).forEach(e=>{
+    const w = normWord(e.word);
+    if(!w) return;
+    if(w.length < 2){ rejected.push({word:e.word, why:'troppo corta'}); return; }
+    if(seen.has(w)){ rejected.push({word:w, why:'ripetuta'}); return; }
+    seen.add(w);
+    list.push({word:w, clue:(e.clue||'').trim() || 'definizione da scrivere'});
+  });
+  if(!list.length) return {words:[], rows:0, cols:0, dropped:[], rejected};
+  const order = [...list].sort((a,b)=> b.word.length - a.word.length || a.word.localeCompare(b.word));
+  const keyGT = (a,b)=>{ for(let i=0;i<a.length;i++){ if(a[i] !== b[i]) return a[i] > b[i]; } return false; };
+  let best = null;
+  for(let s=0; s<order.length; s++){
+    const r = packCross([order[s], ...order.filter((_,i)=> i!==s)]);
+    const key = [r.placed.length, -(r.rows*r.cols), -Math.max(r.cols,r.rows), r.crossings];
+    if(!best || keyGT(key, best.key)) best = {...r, key};
+  }
+  return {words:best.placed, rows:best.rows, cols:best.cols, dropped:best.dropped, rejected};
+}
+function auditLayout(L){
+  const g = new Map();
+  L.words.forEach(w=>{ for(let i=0;i<w.word.length;i++){
+    const r = w.row + (w.dir==='down'?i:0), c = w.col + (w.dir==='across'?i:0);
+    g.set(r+','+c, w.word[i]); } });
+  const runs = [];
+  for(let r=0;r<L.rows;r++){ let s='',c0=0;
+    for(let c=0;c<=L.cols;c++){ const ch=g.get(r+','+c);
+      if(ch){ if(!s) c0=c; s+=ch; } else { if(s.length>1) runs.push({t:s,dir:'across',r,c:c0}); s=''; } } }
+  for(let c=0;c<L.cols;c++){ let s='',r0=0;
+    for(let r=0;r<=L.rows;r++){ const ch=g.get(r+','+c);
+      if(ch){ if(!s) r0=r; s+=ch; } else { if(s.length>1) runs.push({t:s,dir:'down',r:r0,c}); s=''; } } }
+  const known = new Set(L.words.map(w=> w.word+'|'+w.dir+'|'+w.row+'|'+w.col));
+  return runs.filter(x=> !known.has(x.t+'|'+x.dir+'|'+x.r+'|'+x.c)).map(x=> x.t);
+}
+
+/* ═══════════ IL CRUCIVERBA GIOCABILE ═══════════════════════ */
+function playCrossword(host, entries, done){
+  const L = buildLayout(entries);
+  if(!L.words.length){ host.appendChild(el('p','sub','Questo cruciverba è vuoto.')); return; }
+  const words = L.words.map(w=> ({...w, keys:[], solved:false}));
+  const cellMap = new Map(), cellWords = new Map();
+  words.forEach((w,wi)=>{
+    for(let i=0;i<w.word.length;i++){
+      const r = w.dir==='down'? w.row+i : w.row, c = w.dir==='across'? w.col+i : w.col, k = r+','+c;
+      if(!cellMap.has(k)) cellMap.set(k, {r,c,letter:w.word[i]});
+      w.keys.push(k);
+      if(!cellWords.has(k)) cellWords.set(k, []);
+      cellWords.get(k).push(wi);
+    }
+  });
+  const startNum = new Map(); let n = 0;
+  [...new Set(words.map(w=> w.row+','+w.col))]
+    .map(k=>{ const [r,c]=k.split(',').map(Number); return {r,c,k}; })
+    .sort((a,b)=> a.r-b.r || a.c-b.c)
+    .forEach(s=> startNum.set(s.k, ++n));
+  words.forEach(w=> w.num = startNum.get(w.row+','+w.col));
+
+  const grid = el('div','cgrid');
+  grid.style.setProperty('--cols', L.cols);
+  host.appendChild(grid);
+
+  const bar = el('div','gbar');
+  const hintBtn = el('button','btn ghost sm','Un aiutino 💋');
+  const note = el('span','gnote');
+  bar.append(hintBtn, note);
+  host.appendChild(bar);
+  let kisses = 0;
+  const updNote = ()=> note.innerHTML = kisses
+    ? 'Conto aperto: mi devi <b>' + kisses + (kisses===1?' bacio':' baci') + '</b> 💋' : '';
+
+  let sel = null, armed = false, finished = false;
+  const cur = ()=> sel ? words.find(w=> w.dir===sel.dir && w.keys.includes(sel.r+','+sel.c)) || null : null;
+  function paint(){
+    cellMap.forEach(c=> c.el.classList.remove('word','cur'));
+    words.forEach(w=> w.clueEl.classList.remove('active'));
+    const w = cur();
+    if(w){ w.keys.forEach(k=> cellMap.get(k).el.classList.add('word')); w.clueEl.classList.add('active'); }
+    if(sel) cellMap.get(sel.r+','+sel.c).el.classList.add('cur');
+  }
+  function select(r,c,forceDir){
+    const k = r+','+c, ws = cellWords.get(k) || [];
+    if(!ws.length) return;
+    let dir = forceDir || (sel && sel.dir) || 'across';
+    if(!ws.some(i=> words[i].dir===dir)) dir = words[ws[0]].dir;
+    sel = {r,c,dir}; paint();
+  }
+  const goTo = k=>{ const [r,c]=k.split(',').map(Number); select(r,c); cellMap.get(k).input.focus(); };
+  function advance(){
+    const w = cur(); if(!w) return;
+    let i = w.keys.indexOf(sel.r+','+sel.c);
+    while(i < w.keys.length-1){ i++; if(!cellMap.get(w.keys[i]).input.readOnly){ goTo(w.keys[i]); return; } }
+  }
+  function stepBack(){
+    const w = cur(); if(!w) return;
+    let i = w.keys.indexOf(sel.r+','+sel.c);
+    while(i > 0){ i--; const inp = cellMap.get(w.keys[i]).input;
+      if(!inp.readOnly){ goTo(w.keys[i]); inp.value=''; return; } }
+  }
+  function jumpNext(){
+    const nw = words.find(x=> !x.solved); if(!nw) return;
+    const k = nw.keys.find(kk=> !cellMap.get(kk).input.value) || nw.keys[0];
+    sel = null; const [r,c] = k.split(',').map(Number);
+    select(r,c,nw.dir); cellMap.get(k).input.focus();
+  }
+  function moveStep(dr,dc){
+    let r = sel.r+dr, c = sel.c+dc;
+    while(r>=0 && c>=0 && r<L.rows && c<L.cols){
+      const k = r+','+c;
+      if(cellMap.has(k)){ select(r,c); cellMap.get(k).input.focus(); return; }
+      r+=dr; c+=dc;
+    }
+  }
+  function checkWord(w){
+    if(w.solved) return;
+    const vals = w.keys.map(k=> cellMap.get(k).input.value);
+    if(vals.some(v=> !v)) return;
+    if(vals.join('') === w.word){
+      w.solved = true; w.clueEl.classList.add('done');
+      w.keys.forEach(k=>{
+        const c = cellMap.get(k);
+        c.input.readOnly = true; c.el.classList.add('ok');
+        c.el.classList.remove('pulse'); void c.el.offsetWidth; c.el.classList.add('pulse');
+      });
+      burstAt(cellMap.get(w.keys[Math.floor(w.keys.length/2)]).el, 14, 3.5);
+      if(!finished && words.every(x=> x.solved)){
+        finished = true;
+        setTimeout(()=> done(kisses
+          ? 'Il conto dice che mi devi ' + kisses + (kisses===1?' bacio':' baci') + '…'
+          : 'E senza nemmeno un aiutino. Sei pazzesca.'), 700);
+      }
+    } else {
+      w.keys.forEach(k=>{
+        const nd = cellMap.get(k).el;
+        if(nd.classList.contains('ok')) return;
+        nd.classList.remove('err'); void nd.offsetWidth; nd.classList.add('err');
+      });
+    }
+  }
+  const checkAt = k=> (cellWords.get(k)||[]).forEach(i=> checkWord(words[i]));
+
+  for(let r=0;r<L.rows;r++) for(let c=0;c<L.cols;c++){
+    const k = r+','+c;
+    if(!cellMap.has(k)){ grid.appendChild(el('div','void')); continue; }
+    const cell = cellMap.get(k), d = el('div','cell');
+    if(startNum.has(k)) d.appendChild(el('span','n', startNum.get(k)));
+    const inp = el('input');
+    inp.maxLength = 2; inp.autocomplete = 'off';
+    inp.setAttribute('autocapitalize','characters');
+    inp.setAttribute('aria-label','casella '+(r+1)+','+(c+1));
+    d.appendChild(inp); grid.appendChild(d);
+    cell.el = d; cell.input = inp;
+    inp.addEventListener('focus', ()=>{ armed = !!(sel && sel.r===r && sel.c===c); select(r,c); });
+    inp.addEventListener('click', ()=>{
+      if(armed){
+        const ws = cellWords.get(k) || [], other = sel.dir==='across'?'down':'across';
+        if(ws.some(i=> words[i].dir===other)){ sel.dir = other; paint(); }
+      }
+      armed = true;
+    });
+    inp.addEventListener('input', ()=>{
+      const ch = inp.value.slice(-1).toUpperCase();
+      if(!/^[A-Z]$/.test(ch)){ inp.value=''; return; }
+      inp.value = ch; checkAt(k);
+      const w = cur();
+      if(w && w.solved) jumpNext(); else advance();
+    });
+    inp.addEventListener('keydown', e=>{
+      if(e.key === 'Backspace'){
+        e.preventDefault();
+        if(inp.value && !inp.readOnly){ inp.value=''; return; }
+        stepBack();
+      }
+      const D = {ArrowRight:['across',0,1], ArrowLeft:['across',0,-1], ArrowDown:['down',1,0], ArrowUp:['down',-1,0]};
+      if(D[e.key]){
+        e.preventDefault();
+        const [dd,dr,dc] = D[e.key];
+        if(sel.dir !== dd && (cellWords.get(k)||[]).some(i=> words[i].dir===dd)){ sel.dir = dd; paint(); }
+        else moveStep(dr,dc);
+      }
+    });
+  }
+
+  const clues = el('div','clues');
+  const colA = el('div'), colD = el('div');
+  colA.appendChild(el('h4','','Orizzontali')); colD.appendChild(el('h4','','Verticali'));
+  clues.append(colA, colD); host.appendChild(clues);
+  words.slice().sort((a,b)=> a.num-b.num).forEach(w=>{
+    const nd = el('div','clue');
+    nd.innerHTML = '<b>'+w.num+'.</b>' + w.clue + ' <span style="opacity:.55">('+w.word.length+')</span>';
+    nd.onclick = ()=>{ const [r,c] = w.keys[0].split(',').map(Number);
+      select(r,c,w.dir); cellMap.get(w.keys[0]).input.focus(); };
+    w.clueEl = nd;
+    (w.dir==='across' ? colA : colD).appendChild(nd);
+  });
+
+  hintBtn.onclick = ()=>{
+    let w = cur();
+    if(!w || w.solved) w = words.find(x=> !x.solved);
+    if(!w) return;
+    const k = w.keys.find(kk=> cellMap.get(kk).input.value !== cellMap.get(kk).letter);
+    if(!k) return;
+    const cell = cellMap.get(k);
+    cell.input.value = cell.letter;
+    const [r,c] = k.split(',').map(Number);
+    select(r,c,w.dir);
+    kisses++; updNote();
+    toast('Segnato sul conto: ' + kisses + (kisses===1?' bacio':' baci') + ' 💋');
+    checkAt(k);
+  };
+}
+
+/* ═══════════ I GIORNI ═══════════════════════════════════════ */
+let uidN = 0;
+const newId = ()=> 'd' + (++uidN) + Date.now().toString(36).slice(-4);
+function normalizeDays(arr){
+  return (arr||[]).filter(d=> d && typeof d === 'object').map(d=>({
+    id: d.id || newId(),
+    date: /^\d{4}-\d{2}-\d{2}$/.test(d.date||'') ? d.date : todayKey(),
+    title: (d.title || 'Senza titolo').trim(),
+    intro: d.intro || '',
+    outro: d.outro || '',
+    words: Array.isArray(d.words) ? d.words.map(w=> ({word:(w.word||'').toUpperCase(), clue:w.clue||''})) : []
+  })).sort((a,b)=> a.date.localeCompare(b.date));
+}
+let days = [], doneSet = new Set(), preview = false;
+function bootData(){
+  days = normalizeDays(readJSON('perte:days', null) || CONFIG.days);
+  if(!days.length) days = normalizeDays([{title:'Il primo', words:[{word:'AMORE',clue:'facile'}]}]);
+  doneSet = new Set(readJSON('perte:done', []));
+  preview = readJSON('perte:preview', false) === true;
+}
+const saveDays = quiet=>{
+  const ok = store.set('perte:days', JSON.stringify(days));
+  if(!quiet) toast(ok ? 'Salvato su questo dispositivo ✓'
+                      : 'Salvato solo per ora — usa Esporta per renderlo definitivo');
+};
+const saveDone = ()=> store.set('perte:done', JSON.stringify([...doneSet]));
+const isOpen = d=> preview || d.date <= todayKey();
+
+/* ── home ───────────────────────────────────────────────────── */
+let letterUnlocked = false;
+function renderHome(){
+  const tk = todayKey();
+  const todayItem = days.find(d=> d.date === tk) || null;
+  const nextNew = days.filter(d=> isOpen(d) && !doneSet.has(d.id)).slice(-1)[0] || null;
+  const card = $('#todayCard');
+  card.innerHTML = '';
+  card.classList.remove('empty');
+  const feature = (todayItem && isOpen(todayItem)) ? todayItem : nextNew;
+  if(feature){
+    card.appendChild(el('span','ic','✏️'));
+    card.appendChild(el('p','eb', feature === todayItem ? 'oggi · ' + prettyDate(feature.date) : 'da fare'));
+    card.appendChild(el('h2','', feature.title));
+    card.appendChild(el('p','', feature.intro || 'Il cruciverba di oggi ti aspetta.'));
+    card.appendChild(el('span','go', doneSet.has(feature.id) ? 'Rifallo →' : 'Aprilo →'));
+    card.onclick = ()=> openDay(feature.id);
+  } else {
+    card.classList.add('empty');
+    card.appendChild(el('span','ic','🌙'));
+    card.appendChild(el('p','eb','oggi'));
+    card.appendChild(el('h2','','Niente di nuovo, per ora'));
+    card.appendChild(el('p','','Torna domani: ce n\'è un altro che ti aspetta. Intanto puoi rifare quelli di prima.'));
+    card.onclick = null;
+  }
+
+  const cal = $('#cal');
+  cal.innerHTML = '';
+  days.forEach((d,i)=>{
+    const b = el('button','day');
+    const op = isOpen(d);
+    if(!op) b.classList.add('locked');
+    if(d.date === tk && op) b.classList.add('today');
+    if(doneSet.has(d.id)) b.classList.add('done');
+    b.appendChild(el('span','n', i+1));
+    b.appendChild(el('span','e', op ? '✏️' : '🔒'));
+    b.appendChild(el('span','d', op ? d.title : d.date.slice(8) + '/' + d.date.slice(5,7)));
+    b.title = op ? d.title : 'Si apre il ' + prettyDate(d.date);
+    b.onclick = ()=>{
+      if(!op){
+        const diff = Math.round((keyToDate(d.date) - keyToDate(tk)) / 864e5);
+        toast(diff === 1 ? 'Manca un giorno 😌' : 'Mancano ' + diff + ' giorni. Pazienza, amore.');
+        b.animate([{transform:'translateX(0)'},{transform:'translateX(-5px)'},
+                   {transform:'translateX(5px)'},{transform:'translateX(0)'}], {duration:320});
+        return;
+      }
+      openDay(d.id);
+    };
+    cal.appendChild(b);
+  });
+  $('#calStat').textContent = doneSet.size + ' di ' + days.length + ' risolti';
+
+  letterUnlocked = doneSet.size > 0;
+  $('#letterIc').textContent = letterUnlocked ? '💌' : '🔒';
+  $('#letterHint').textContent = letterUnlocked
+    ? 'Sbloccata. È lì che ti aspetta.'
+    : 'Si apre quando risolvi il primo cruciverba.';
+}
+
+function openDay(id){
+  const d = days.find(x=> x.id === id);
+  if(!d) return;
+  $('#gDate').textContent = 'n° ' + (days.indexOf(d)+1) + ' · ' + prettyDate(d.date);
+  $('#gTitle').textContent = d.title;
+  const intro = $('#gIntro');
+  intro.textContent = d.intro || '';
+  intro.style.display = d.intro ? '' : 'none';
+  const host = $('#gHost');
+  host.innerHTML = '';
+  playCrossword(host, d.words, extra=> finishDay(d, extra));
+  showPage('gioco');
+}
+function finishDay(d, extra){
+  const first = !doneSet.has(d.id);
+  doneSet.add(d.id); saveDone();
+  confetti();
+  $('#vText').textContent = d.outro || 'Le sapevi tutte. Ovvio: sono parole nostre ❤';
+  const nxt = days.filter(isOpen).find(x=> !doneSet.has(x.id));
+  const tail = nxt ? 'Ce n\'è un altro già sbloccato: «' + nxt.title + '».'
+                   : (first ? 'Domani se ne apre uno nuovo.' : '');
+  $('#vExtra').textContent = [String(extra||'').trim(), tail].filter(Boolean).join(' ');
+  $('#btnWinLetter').style.display = (letterUnlocked || first) ? '' : 'none';
+  $('#win').classList.add('show');
+  renderHome();
+}
+$('#btnWinHome').onclick = ()=>{ $('#win').classList.remove('show'); showPage('home'); };
+$('#btnWinLetter').onclick = ()=>{ $('#win').classList.remove('show'); showPage('lettera'); };
+$('#cardLetter').addEventListener('click', e=>{
+  if(letterUnlocked){ showPage('lettera'); return; }
+  toast('Eh no: prima risolvine uno 😌');
+  const c = e.currentTarget;
+  c.classList.remove('err'); void c.offsetWidth; c.classList.add('err');
+});
+$$('[data-home]').forEach(b=> b.addEventListener('click', ()=>{ showPage('home'); renderHome(); }));
+
+/* ── cancello ───────────────────────────────────────────────── */
+const dIn = [$('#dD'), $('#dM'), $('#dY')];
+dIn.forEach((n,i)=>{
+  n.addEventListener('input', ()=>{
+    n.value = n.value.replace(/\D/g,'');
+    if(n.value.length >= +n.maxLength && dIn[i+1]) dIn[i+1].focus();
+  });
+  n.addEventListener('keydown', e=>{
+    if(e.key === 'Enter') tryOpen();
+    if(e.key === 'Backspace' && !n.value && dIn[i-1]) dIn[i-1].focus();
+  });
+});
+const gateLines = ["Mmh, no. Riprova, amore… la sai.",
+  "Dai che la sai 😏 pensa al giorno più bello.",
+  "Ultimo indizio: è la data che festeggiamo ogni anno ❤"];
+let attempts = 0;
+function tryOpen(){
+  const A = CONFIG.anniversary;
+  if(+dIn[0].value===A.day && +dIn[1].value===A.month && +dIn[2].value===A.year){
+    const b = $('#btnOpen').getBoundingClientRect();
+    sealBreak(b.left + b.width/2, b.top + b.height/2);
+  } else {
+    const m = $('#gateMsg');
+    m.textContent = gateLines[Math.min(attempts, gateLines.length-1)];
+    m.classList.add('show'); attempts++;
+    const box = $('#sealBox');
+    box.classList.remove('err'); void box.offsetWidth; box.classList.add('err');
+  }
+}
+$('#btnOpen').addEventListener('click', tryOpen);
+function enterHome(){ renderHome(); startCounter(); showPage('home', true); }
+function sealBreak(x,y){
+  burst(x,y,34,6);
+  const r = el('div','reveal');
+  r.style.left = x+'px'; r.style.top = y+'px';
+  document.body.appendChild(r);
+  if(reduced){ enterHome(); r.remove(); return; }
+  const scale = (Math.hypot(Math.max(x, innerWidth-x), Math.max(y, innerHeight-y)) * 2.2)/80;
+  r.animate([{transform:'scale(0)'},{transform:'scale('+scale+')'}],
+    {duration:640, easing:'cubic-bezier(.22,1,.36,1)', fill:'forwards'});
+  setTimeout(enterHome, 520);
+  setTimeout(()=>{ r.animate([{opacity:1},{opacity:0}],{duration:480, fill:'forwards'}).onfinish = ()=> r.remove(); }, 700);
+}
+let counterOn = false;
+function startCounter(){
+  if(counterOn) return; counterOn = true;
+  const A = CONFIG.anniversary, t0 = new Date(A.year, A.month-1, A.day).getTime();
+  $('#sinceDate').textContent = new Intl.DateTimeFormat('it-IT',{day:'numeric',month:'long',year:'numeric'}).format(t0);
+  const p2 = n=> String(n).padStart(2,'0');
+  const tick = ()=>{
+    const t = Math.max(0, Date.now() - t0);
+    $('#cd').textContent = Math.floor(t/864e5);
+    $('#ch').textContent = p2(Math.floor(t/36e5)%24);
+    $('#cm').textContent = p2(Math.floor(t/6e4)%60);
+    $('#cs').textContent = p2(Math.floor(t/1e3)%60);
+  };
+  tick(); setInterval(tick, 1000);
+}
+
+/* ═══════════ EDITOR ═════════════════════════════════════════ */
+let edId = null;
+const edDay = ()=> days.find(d=> d.id === edId) || days[0];
+
+function edChips(){
+  const box = $('#edChips');
+  box.innerHTML = '';
+  days.forEach((d,i)=>{
+    const c = el('button','chip' + (d.id === edId ? ' on' : '') + (doneSet.has(d.id) ? ' done' : ''),
+      (i+1) + ' · ' + (d.title || 'senza titolo'));
+    c.onclick = ()=>{ edId = d.id; edLoad(); };
+    box.appendChild(c);
+  });
+}
+function wordRow(w, i){
+  const row = el('div','erow');
+  const a = el('input','fin k');
+  a.value = w.word || ''; a.placeholder = 'PAROLA'; a.autocomplete = 'off';
+  const b = el('input','fin v');
+  b.value = w.clue || ''; b.placeholder = 'definizione…'; b.autocomplete = 'off';
+  a.addEventListener('input', ()=>{ w.word = a.value.toUpperCase(); row.dataset.word = normWord(a.value); edSync(); });
+  b.addEventListener('input', ()=>{ w.clue = b.value; edSync(); });
+  a.addEventListener('keydown', e=>{ if(e.key === 'Enter') b.focus(); });
+  b.addEventListener('keydown', e=>{ if(e.key === 'Enter') addWord(); });
+  const x = el('button','del','×');
+  x.title = 'togli';
+  x.onclick = ()=>{ const d = edDay(); d.words.splice(d.words.indexOf(w),1); drawWords(); edSync(); };
+  row.dataset.word = normWord(w.word);
+  row.append(a,b,x);
+  return row;
+}
+function drawWords(){
+  const host = $('#wordRows');
+  host.innerHTML = '';
+  const d = edDay();
+  if(!d.words.length) d.words.push({word:'',clue:''});
+  d.words.forEach((w,i)=> host.appendChild(wordRow(w,i)));
+}
+function addWord(){
+  const d = edDay();
+  d.words.push({word:'',clue:''});
+  drawWords(); edSync();
+  $('#wordRows').lastElementChild?.querySelector('.fin.k')?.focus();
+}
+$('#addWord').onclick = addWord;
+$('#sortWords').onclick = ()=>{
+  const d = edDay();
+  d.words.sort((a,b)=> normWord(b.word).length - normWord(a.word).length);
+  drawWords(); edSync();
+  toast('Ordinate dalla più lunga 🙂');
+};
+
+/* incolla-massivo */
+function parsePasted(txt){
+  const out = [], bad = [];
+  (txt||'').split(/\r?\n/).forEach(line=>{
+    const raw = line.trim();
+    if(!raw) return;
+    const m = raw.match(/^(.*?)\s*(?:\t|\s[=|;:–—-]\s|[=|;]|:\s|,\s)\s*(.*)$/);
+    let w, c;
+    if(m && normWord(m[1])){ w = m[1]; c = m[2]; }
+    else { w = raw; c = ''; }
+    const nw = normWord(w);
+    if(nw.length < 2){ bad.push(raw); return; }
+    out.push({word:nw, clue:(c||'').trim()});
+  });
+  return {rows:out, bad};
+}
+$('#togglePaste').onclick = ()=>{
+  const p = $('#pastePanel');
+  const show = p.style.display === 'none';
+  p.style.display = show ? '' : 'none';
+  if(show){ $('#pasteBox').focus(); updPasteInfo(); }
+};
+$('#pasteClose').onclick = ()=>{ $('#pastePanel').style.display = 'none'; };
+function updPasteInfo(){
+  const {rows, bad} = parsePasted($('#pasteBox').value);
+  const noClue = rows.filter(r=> !r.clue).length;
+  const info = $('#pasteInfo');
+  if(!rows.length && !bad.length){ info.innerHTML = 'Incolla qui la tua lista.'; info.className = 'warn'; return; }
+  const bits = ['Leggo <b>' + rows.length + '</b> parole'];
+  if(noClue) bits.push('<b>' + noClue + '</b> senza definizione');
+  if(bad.length) bits.push('<b>' + bad.length + '</b> righe scartate (troppo corte)');
+  info.innerHTML = bits.join(' · ');
+  info.className = 'warn' + ((noClue || bad.length) ? ' bad' : '');
+}
+$('#pasteBox').addEventListener('input', updPasteInfo);
+function applyPasted(replace){
+  const {rows} = parsePasted($('#pasteBox').value);
+  if(!rows.length){ toast('Non ho trovato parole valide'); return; }
+  const d = edDay();
+  if(replace) d.words = rows;
+  else d.words = [...d.words.filter(w=> normWord(w.word).length > 1), ...rows];
+  drawWords(); edSync();
+  $('#pastePanel').style.display = 'none';
+  $('#pasteBox').value = '';
+  toast((replace ? 'Sostituite con ' : 'Aggiunte ') + rows.length + ' parole ✓');
+}
+$('#pasteAdd').onclick = ()=> applyPasted(false);
+$('#pasteReplace').onclick = ()=> applyPasted(true);
+
+function edLoad(){
+  const d = edDay();
+  if(!d) return;
+  edId = d.id;
+  $('#fDate').value = d.date;
+  $('#fTitle').value = d.title;
+  $('#fIntro').value = d.intro;
+  $('#fOutro').value = d.outro;
+  drawWords();
+  edChips();
+  edPreview();
+}
+let syncT;
+function edSync(){
+  clearTimeout(syncT);
+  syncT = setTimeout(()=>{
+    const d = edDay();
+    if(!d) return;
+    d.title = $('#fTitle').value.trim() || 'Senza titolo';
+    d.intro = $('#fIntro').value;
+    d.outro = $('#fOutro').value;
+    edChips(); edPreview();
+  }, 180);
+}
+['#fTitle','#fIntro','#fOutro'].forEach(s=> $(s).addEventListener('input', edSync));
+$('#fDate').addEventListener('change', ()=>{
+  if(!/^\d{4}-\d{2}-\d{2}$/.test($('#fDate').value)) return;
+  edDay().date = $('#fDate').value;
+  days.sort((a,b)=> a.date.localeCompare(b.date));
+  edChips(); renderHome();
+});
+$('#prevMode').addEventListener('change', e=>{
+  preview = e.target.checked;
+  store.set('perte:preview', JSON.stringify(preview));
+  renderHome();
+  toast(preview ? 'Tutti i giorni sbloccati (solo qui da te)' : 'Sblocco tornato alle date vere');
+});
+
+function edPreview(){
+  const d = edDay();
+  if(!d) return;
+  const L = buildLayout(d.words);
+  const g = $('#pvGrid'), warn = $('#pvWarn');
+  g.innerHTML = ''; warn.innerHTML = '';
+  const msgs = [], marks = new Set();
+  if(!L.words.length){
+    g.style.setProperty('--cols', 1);
+    msgs.push({text:'Scrivi almeno due parole che abbiano qualche lettera in comune.'});
+  } else {
+    const map = new Map();
+    L.words.forEach(w=>{ for(let i=0;i<w.word.length;i++){
+      const r = w.row + (w.dir==='down'?i:0), c = w.col + (w.dir==='across'?i:0);
+      map.set(r+','+c, w.word[i]); } });
+    g.style.setProperty('--cols', L.cols);
+    for(let r=0;r<L.rows;r++) for(let c=0;c<L.cols;c++){
+      const ch = map.get(r+','+c);
+      g.appendChild(el('div','pvc' + (ch ? '' : ' empty'), ch || ''));
+    }
+    msgs.push({text:'<b>'+L.words.length+'</b> parole incastrate · griglia <b>'+L.rows+'×'+L.cols+'</b>'});
+    if(L.dropped.length){
+      const bw = L.dropped.map(x=> x.word);
+      bw.forEach(x=> marks.add(x));
+      msgs.push({bad:true, text:'Non entrano: <b>'+bw.join(', ')+'</b>. Non hanno lettere in comune con le altre — cambiane una o aggiungi una parola ponte.'});
+    }
+    if(L.rejected.length)
+      msgs.push({bad:true, text:'Scartate: <b>'+L.rejected.map(x=> x.word+' ('+x.why+')').join(', ')+'</b>'});
+    const acc = auditLayout(L);
+    if(acc.length) msgs.push({bad:true, text:'Si formano parole non volute: <b>'+acc.join(', ')+'</b>'});
+    if(L.cols > 13) msgs.push({bad:true, text:'Griglia larga <b>'+L.cols+'</b> colonne: su telefono le caselle diventano piccole.'});
+    const noClue = d.words.filter(w=> normWord(w.word).length>1 && !(w.clue||'').trim());
+    if(noClue.length){
+      noClue.forEach(w=> marks.add(normWord(w.word)));
+      msgs.push({bad:true, text:'Senza definizione: <b>'+noClue.map(w=> normWord(w.word)).join(', ')+'</b>'});
+    }
+    if(!msgs.some(m=> m.bad)) msgs.push({text:'Tutto a posto ✓ pronto da regalare.'});
+  }
+  msgs.forEach(m=>{
+    const p = el('p','warn' + (m.bad ? ' bad' : ''));
+    p.innerHTML = m.text;
+    warn.appendChild(p);
+  });
+  $$('#wordRows .erow').forEach(r=> r.classList.toggle('bad', !!(r.dataset.word && marks.has(r.dataset.word))));
+}
+
+$('#pSave').onclick = ()=>{ edSync(); setTimeout(()=>{ saveDays(); renderHome(); }, 220); };
+$('#pTry').onclick = ()=>{ edSync(); setTimeout(()=> openDay(edId), 220); };
+$('#pNew').onclick = ()=>{
+  const last = days[days.length-1];
+  const nd = last ? new Date(keyToDate(last.date).getTime() + 864e5) : new Date();
+  const d = { id:newId(), date:dkey(nd), title:'Cruciverba nuovo', intro:'', outro:'',
+    words:[{word:'',clue:''},{word:'',clue:''},{word:'',clue:''}] };
+  days.push(d); days.sort((a,b)=> a.date.localeCompare(b.date));
+  edId = d.id; edLoad(); renderHome();
+  toast('Creato. Incolla la lista o scrivi le parole 👇');
+};
+$('#pDup').onclick = ()=>{
+  const d = edDay();
+  const copy = JSON.parse(JSON.stringify(d));
+  copy.id = newId();
+  copy.title = d.title + ' (copia)';
+  copy.date = dkey(new Date(keyToDate(days[days.length-1].date).getTime() + 864e5));
+  days.push(copy); days.sort((a,b)=> a.date.localeCompare(b.date));
+  edId = copy.id; edLoad(); renderHome();
+  toast('Duplicato: cambia le parole 🙂');
+};
+let delArmed = false, delT;
+$('#pDel').onclick = e=>{
+  if(days.length === 1){ toast('Deve restarne almeno uno 🙂'); return; }
+  if(!delArmed){
+    delArmed = true;
+    e.currentTarget.textContent = 'Sicuro? premi di nuovo';
+    clearTimeout(delT);
+    delT = setTimeout(()=>{ delArmed = false; $('#pDel').textContent = 'Elimina'; }, 4000);
+    return;
+  }
+  clearTimeout(delT); delArmed = false; e.currentTarget.textContent = 'Elimina';
+  days = days.filter(x=> x.id !== edId);
+  edId = days[0].id;
+  edLoad(); saveDays(true); renderHome();
+  toast('Eliminato');
+};
+
+function exportCode(){
+  const body = days.map(d=>
+    '    { date: '   + JSON.stringify(d.date)  + ', title: ' + JSON.stringify(d.title) + ',\n' +
+    '      intro: '  + JSON.stringify(d.intro) + ',\n' +
+    '      outro: '  + JSON.stringify(d.outro) + ',\n' +
+    '      words: [\n' +
+    d.words.filter(w=> normWord(w.word).length > 1).map(w=>
+      '        { word: ' + JSON.stringify(normWord(w.word)) + ', clue: ' + JSON.stringify(w.clue||'') + ' }'
+    ).join(',\n') +
+    '\n      ]}').join(',\n\n');
+  return '  days: [\n' + body + '\n  ]';
+}
+function jsonish(src){
+  let out = '', i = 0, inStr = false, esc = false;
+  while(i < src.length){
+    const ch = src[i];
+    if(inStr){
+      out += ch;
+      if(esc) esc = false; else if(ch === '\\') esc = true; else if(ch === '"') inStr = false;
+      i++; continue;
+    }
+    if(ch === '"'){ inStr = true; out += ch; i++; continue; }
+    if(ch === '/' && src[i+1] === '/'){ while(i < src.length && src[i] !== '\n') i++; continue; }
+    if(ch === "'"){
+      let s = ''; i++;
+      while(i < src.length && src[i] !== "'"){
+        if(src[i] === '\\'){ s += src[i+1] === "'" ? "'" : src[i] + src[i+1]; i += 2; }
+        else s += src[i++];
+      }
+      i++; out += JSON.stringify(s); continue;
+    }
+    if(/[A-Za-z_$]/.test(ch)){
+      let id = '';
+      while(i < src.length && /[\w$]/.test(src[i])) id += src[i++];
+      let sp = '';
+      while(i < src.length && /\s/.test(src[i])) sp += src[i++];
+      out += (src[i] === ':' ? '"' + id + '"' : id) + sp;
+      continue;
+    }
+    out += ch; i++;
+  }
+  return out.replace(/,(\s*[}\]])/g, '$1');
+}
+$('#pExport').onclick = ()=>{
+  edSync();
+  setTimeout(()=>{
+    const io = $('#ioBox');
+    io.value = '// Incolla questo dentro CONFIG, al posto del blocco "days: [...]"\n\n' + exportCode();
+    io.classList.add('show');
+    $('#ioActions').style.display = 'flex';
+    $('#ioApply').style.display = 'none';
+    io.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 220);
+};
+$('#pImport').onclick = ()=>{
+  const io = $('#ioBox');
+  io.value = '';
+  io.placeholder = 'Incolla qui il codice dei giorni, poi premi "Carica questo"';
+  io.classList.add('show');
+  $('#ioActions').style.display = 'flex';
+  $('#ioApply').style.display = '';
+  io.focus();
+};
+$('#ioApply').onclick = ()=>{
+  try{
+    let raw = jsonish($('#ioBox').value);
+    const m = raw.match(/"days"\s*:\s*([\s\S]*)$/);
+    if(m) raw = m[1];
+    raw = raw.trim().replace(/[;,]+\s*$/,'');
+    const arr = JSON.parse(raw.startsWith('[') ? raw : '[' + raw + ']');
+    const nd = normalizeDays(arr);
+    if(!nd.length) throw new Error('vuoto');
+    days = nd; edId = days[0].id;
+    edLoad(); renderHome();
+    toast('Caricati ' + nd.length + ' cruciverba ✓ ora premi Salva');
+  }catch(err){ toast('Non riesco a leggerlo — controlla che sia il codice completo'); }
+};
+$('#ioCopy').onclick = async ()=>{
+  const io = $('#ioBox');
+  try{ await navigator.clipboard.writeText(io.value); toast('Copiato ✓'); }
+  catch(e){ io.select(); toast('Selezionato: premi Ctrl/Cmd+C'); }
+};
+$('#ioClose').onclick = ()=>{
+  $('#ioBox').classList.remove('show');
+  $('#ioActions').style.display = 'none';
+};
+
+/* accesso all'editor: il bottone in home (se CONFIG.editorVisibile è true),
+   #studio nell'URL, Ctrl+Shift+E, o 1,5s premuto sulla scritta in fondo */
+function openStudio(){
+  if(!edId || !days.some(d=> d.id === edId)) edId = days[0].id;
+  $('#prevMode').checked = preview;
+  edLoad();
+  showPage('studio');
+}
+if(CONFIG.editorVisibile !== false){
+  $('#cardStudio').style.display = '';
+  $('#cardStudio').onclick = openStudio;
+  /* scorciatoia dal cancello: tre tocchi sul cuoricino, così non devi
+     rimettere la data ogni volta che lavori ai cruciverba */
+  let taps = 0, tapT;
+  $('#gate .heartmark').addEventListener('click', ()=>{
+    taps++;
+    clearTimeout(tapT);
+    tapT = setTimeout(()=> taps = 0, 900);
+    if(taps >= 3){ taps = 0; renderHome(); startCounter(); openStudio(); }
+  });
+  $('#gate .heartmark').style.cursor = 'pointer';
+}
+addEventListener('keydown', e=>{
+  if(e.key && e.key.toLowerCase() === 'e' && e.shiftKey && (e.ctrlKey || e.metaKey)){
+    e.preventDefault(); openStudio();
+  }
+});
+let holdT;
+const fm = $('#footMark');
+['mousedown','touchstart'].forEach(ev=> fm.addEventListener(ev,
+  ()=>{ holdT = setTimeout(()=>{ toast('Retrobottega 🤫'); openStudio(); }, 1500); }, {passive:true}));
+['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=> fm.addEventListener(ev,
+  ()=> clearTimeout(holdT), {passive:true}));
+
+/* ── avvio ──────────────────────────────────────────────────── */
+bootData();
+$('#herName').textContent = CONFIG.herName;
+$('#letterTitle').textContent = CONFIG.letterTitle;
+CONFIG.letterParagraphs.forEach(t=> $('#letterBody').appendChild(el('p','',t)));
+$('#letterBody').appendChild(el('p','firma','— ' + CONFIG.signature + ' ❤'));
+
+if(location.hash === '#studio'){ renderHome(); startCounter(); openStudio(); }
+else showPage('gate', true);
+</script>
+</body>
+</html>
